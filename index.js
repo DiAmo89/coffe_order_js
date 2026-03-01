@@ -607,8 +607,35 @@ function createSugarDrop() {
 // ══════════════════════════════════════════════════════
 const SC = document.getElementById("sugarCanvas");
 const sx = SC.getContext("2d");
-const SW = SC.width,
-  SH = SC.height;
+
+// Set up responsive canvas
+function setupCanvasSize() {
+  const dpr = window.devicePixelRatio || 1;
+  const rect = SC.getBoundingClientRect();
+
+  // Use display size from CSS (400x300 default or responsive)
+  let displayWidth = 400;
+  let displayHeight = 300;
+
+  // On mobile, canvas might be smaller
+  if (window.innerWidth < 480) {
+    displayWidth = Math.min(300, rect.width);
+    displayHeight = Math.min(225, rect.height);
+  }
+
+  // Set internal resolution for crisp rendering
+  SC.width = displayWidth * dpr;
+  SC.height = displayHeight * dpr;
+
+  // Scale context to match device pixel ratio
+  sx.scale(dpr, dpr);
+
+  return { width: displayWidth, height: displayHeight };
+}
+
+let canvasSize = setupCanvasSize();
+let SW = canvasSize.width;
+let SH = canvasSize.height;
 
 // Sugar cup geometry (positioned above video, matching cup in video)
 const SG = {
@@ -625,6 +652,16 @@ let sugarParts = [],
   sugarRips = [];
 let sraf = null;
 let sugarTimeoutId = null;
+
+// Handle window resize for responsive canvas
+window.addEventListener("resize", () => {
+  canvasSize = setupCanvasSize();
+  SW = canvasSize.width;
+  SH = canvasSize.height;
+  SG.cx = SW / 2;
+  SG.rimY = SH * 0.65;
+  SG.botY = SH * 0.95;
+});
 
 function dropSugar() {
   // One cube falls from above
@@ -877,9 +914,15 @@ document.addEventListener("DOMContentLoaded", () => {
         clearTimeout(sugarTimeoutId);
         sugarTimeoutId = null;
       }
-      
+
       selCoffee = COFFEES[+btn.dataset.id];
       document.getElementById("bi-name").textContent = selCoffee.name;
+
+      // Add +35px to sugar disappear distance on mobile/tablet (max-width 768px)
+      if (window.innerWidth <= 768) {
+        selCoffee.sugarBotDist += 35;
+      }
+
       sugarCount = 0; // Reset sugar count for new coffee
       sugarParts = []; // Clear existing sugar particles
       sugarRips = []; // Clear existing ripples
@@ -997,21 +1040,24 @@ document.addEventListener("DOMContentLoaded", () => {
         };
 
         // Fallback timeout to ensure sugar panel shows (for safety)
-        sugarTimeoutId = setTimeout(() => {
-          if (!s3Panel.classList.contains("show")) {
-            phaseEl.textContent = "Ready ✓";
-            s3Panel.classList.add("show");
-            if (permVideo && !permVideoStarted) {
-              permVideo.style.display = "block";
-              permVideo.currentTime = 0;
-              permVideo.play();
-              permVideoStarted = true;
-              setTimeout(() => {
-                permVideo.style.opacity = "1";
-              }, 150);
+        sugarTimeoutId = setTimeout(
+          () => {
+            if (!s3Panel.classList.contains("show")) {
+              phaseEl.textContent = "Ready ✓";
+              s3Panel.classList.add("show");
+              if (permVideo && !permVideoStarted) {
+                permVideo.style.display = "block";
+                permVideo.currentTime = 0;
+                permVideo.play();
+                permVideoStarted = true;
+                setTimeout(() => {
+                  permVideo.style.opacity = "1";
+                }, 150);
+              }
             }
-          }
-        }, (videoDuration || 8) * 1000 + 500);
+          },
+          Math.max(7000, (videoDuration || 8) * 1000 + 1000),
+        );
         // Let video 2 loop naturally
         if (permVideo) {
           // Just let the loop attribute handle it naturally

@@ -5,6 +5,7 @@ A sophisticated single-page web application that simulates an interactive coffee
 ## 🎯 Features
 
 ### Main Screens
+
 - **S1 - Coffee Selection**: Browse 9 coffee varieties with 3D hover effects (Cappuccino & Espresso fully functional)
 - **S2 - Brewing Visualization**: Real-time video playback with:
   - Smooth dual-video transitions (seamless at 0.3s before end)
@@ -12,13 +13,11 @@ A sophisticated single-page web application that simulates an interactive coffee
   - Canvas-based falling sugar particle system with physics
   - Sugar count controls (+/- buttons)
   - Coffee-specific steam animations
-  
 - **S3 - Sugar Adjustment**: Interactive sugar panel with:
   - Add/remove sugar with visual feedback
   - 5-sugar maximum limit
   - Sugar cube indicators
   - Quick "no sugar" option
-  
 - **S4 - Result Card**: Personalized order summary with:
   - Coffee-specific image display with dynamic sizing
   - Color-coded layout per coffee type
@@ -26,16 +25,15 @@ A sophisticated single-page web application that simulates an interactive coffee
   - Dark footer with full coffee details
 
 ### Visual Effects
+
 - **3D Text Effect**: Coffee names with layered text transforms on hover
   - Gold (#C8903A) and Cream (#F5EDD8) colored layers
   - Responsive offset animations
-  
-- **Sugar Particle Physics**: 
+- **Sugar Particle Physics**:
   - Gravity-based falling system (0.55 accel)
   - Rotation effects
   - Dissolve animation
   - Coffee-specific sink depths (Espresso: 30px, Cappuccino: 80px)
-  
 - **Video System**:
   - Dual-video architecture for seamless transitions
   - Pre-trigger loading (0.3s before video 1 ends)
@@ -51,14 +49,13 @@ A sophisticated single-page web application that simulates an interactive coffee
   - CSS transitions (smooth fading, transforms)
   - Gradient backgrounds
   - Text stroke effects (-webkit-text-stroke)
-  
 - **Vanilla JavaScript**: Zero frameworks, pure ES6+
   - Canvas 2D API for particle system
   - HTML5 Audio/Video API
   - RequestAnimationFrame for smooth animations
   - DOM manipulation with event listeners
 
-- **Assets**: 
+- **Assets**:
   - MP4 video files (video1capuccino.mp4, video2capuccino.mp4, vide01.mp4, videopermanent.mp4)
   - PNG images (grok-image for Cappuccino, imageespresso.png)
 
@@ -90,11 +87,13 @@ coffe nice/
 ## 🚀 Getting Started
 
 ### Installation
+
 1. Clone the repository
 2. Ensure all video and image assets are in the `assets/` folder
 3. Open `index.html` in a modern web browser
 
 ### Browser Requirements
+
 - Modern browser with ES6+ support
 - Canvas API support
 - HTML5 Video support
@@ -103,11 +102,13 @@ coffe nice/
 ## 💻 How It Works
 
 ### Coffee Selection (S1)
+
 - Click any coffee button (Cappuccino or Espresso for full experience)
 - Button has 3D hover effect with gold and cream colored text layers
 - Other buttons show hover effect but are placeholder-only
 
 ### Brewing Process (S2)
+
 1. Video 1 plays automatically
 2. Phase text updates in 4 stages (customized per coffee type)
 3. Sugar can be added/removed during brewing
@@ -116,6 +117,7 @@ coffe nice/
 6. Video 2 loops indefinitely
 
 ### Sugar System
+
 - Canvas-based particles fall from top of cup
 - Physics: gravity acceleration, rotation, x-axis drift
 - Particles dissolve when they reach bottom (coffee-specific depth)
@@ -123,6 +125,7 @@ coffe nice/
 - Persists until sugar amount confirmed
 
 ### Result Screen (S4)
+
 - Displays final coffee order with sugar count
 - Coffee-specific colors and images
 - Data grid shows scientific values:
@@ -133,12 +136,14 @@ coffe nice/
 ## 🎨 Color Scheme
 
 ### Cappuccino
+
 - Primary: Warm brown gradient (#C4885A to #8B6340)
 - Text: Dark brown (#3A2818)
 - Info bg: Light tan (#D4C9B8)
 - 3D effect: Aurium (#C8903A) + Cream (#F5EDD8)
 
 ### Espresso
+
 - Primary: Dark brown gradient (#3A2010 to #130602)
 - Text: White on dark (#FFFFFF)
 - Info bg: Deep black (#0C0806)
@@ -147,6 +152,7 @@ coffe nice/
 ## 📊 Data Structure
 
 Each coffee in COFFEES array contains:
+
 ```javascript
 {
   id: number,                    // Array index
@@ -184,18 +190,21 @@ Each coffee in COFFEES array contains:
 ## 🌟 Key Implementation Details
 
 ### Particle System
+
 - Uses Canvas 2D for high-performance rendering
 - Each particle: velocity, rotation, alpha fade, dissolution
 - Physics: `vy += 0.55` gravity per frame
 - Optimized with RequestAnimationFrame loop
 
 ### Video Transitions
+
 - Pre-loads video 2 with `preload="metadata"`
 - Triggers at `timeRemaining <= 0.3s`
 - CSS opacity transition + setTimeout delay (150ms) for DOM sync
 - Fallback timeout ensures panel shows even if video events miss
 
 ### Sugar Panel
+
 - Slides in from right with transform animation
 - 0.6s duration with 0.3s delay (staggered with card fade)
 - Cubic-bezier easing for natural motion
@@ -204,17 +213,20 @@ Each coffee in COFFEES array contains:
 ## 🔧 Customization
 
 ### Add New Coffee
+
 1. Add object to COFFEES array with required properties
 2. Add HTML button with `data-id` attribute
 3. Provide video files (video1, video2)
 4. Provide result image file
 
 ### Adjust Sugar Physics
+
 - Change `0.55` in `tickSugarParts()` for gravity
 - Change `sugarBotDist` per coffee for dissolve depth
 - Modify particle size: `20 + Math.random() * 8` in `dropSugar()`
 
 ### Modify Colors
+
 - Update CSS variables or directly change hex values
 - S2 colors tied to coffee `bg` property
 - S4 colors tied to `cardTextMain`, `cardTextSub`, `infoBg` properties
@@ -238,6 +250,7 @@ Each coffee in COFFEES array contains:
 ## 🤝 Contributing
 
 This is a demonstration project. For modifications:
+
 1. Test all coffee types (Cappuccino, Espresso)
 2. Verify video transitions at 0.3s threshold
 3. Check sugar particle birthplace (rimY - 120)
