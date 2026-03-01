@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Order Your Coffee</title>
+    <link rel="stylesheet" href="style.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div id="app">
+      <div class="wordmark">café<span class="wordmark-dot">•</span>elite</div>
+
+      <!-- S1 -->
+      <div class="scr on" id="s1">
+        <div class="s1-inner">
+          <ul class="clist">
+            <li>
+              <button class="cbtn" data-id="1">
+                <div class="cbox">
+                  <span class="cname" data-text="Espresso">Espresso</span
+                  ><span class="ctag">Pure · Brazil</span>
+                </div>
+              </button>
+            </li>
+            <li>
+              <button class="cbtn" data-coffee="Espresso Macchiato">
+                <div class="cbox">
+                  <span class="cname" data-text="Espresso Macchiato"
+                    >Espresso Macchiato</span
+                  ><span class="ctag">Bold & Creamy · Ethiopia</span>
+                </div>
+              </button>
+            </li>
+            <li>
+              <button class="cbtn" data-id="0">
+                <div class="cbox">
+                  <span class="cname" data-text="Cappuccino">Cappuccino</span
+                  ><span class="ctag">Classic · Italy</span>
+                </div>
+              </button>
+            </li>
+            <li>
+              <button class="cbtn" data-coffee="Latte Macchiato">
+                <div class="cbox">
+                  <span class="cname" data-text="Latte Macchiato"
+                    >Latte Macchiato</span
+                  ><span class="ctag">Layered · Colombia</span>
+                </div>
+              </button>
+            </li>
+            <li>
+              <button class="cbtn" data-coffee="Flat White">
+                <div class="cbox">
+                  <span class="cname" data-text="Flat White">Flat White</span
+                  ><span class="ctag">Velvety · Kenya</span>
+                </div>
+              </button>
+            </li>
+            <li>
+              <button class="cbtn" data-coffee="Americano">
+                <div class="cbox">
+                  <span class="cname" data-text="Americano">Americano</span
+                  ><span class="ctag">Diluted · USA</span>
+                </div>
+              </button>
+            </li>
+            <li>
+              <button class="cbtn" data-coffee="Cortado">
+                <div class="cbox">
+                  <span class="cname" data-text="Cortado">Cortado</span
+                  ><span class="ctag">Espresso + Milk · Spain</span>
+                </div>
+              </button>
+            </li>
+            <li>
+              <button class="cbtn" data-coffee="Mocha">
+                <div class="cbox">
+                  <span class="cname" data-text="Mocha">Mocha</span
+                  ><span class="ctag">Chocolate Blend · Yemen</span>
+                </div>
+              </button>
+            </li>
+            <li>
+              <button class="cbtn" data-coffee="Affogato">
+                <div class="cbox">
+                  <span class="cname" data-text="Affogato">Affogato</span
+                  ><span class="ctag">Over Gelato · Italy</span>
+                </div>
+              </button>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- S2 BREW -->
+      <div class="scr" id="s2">
+        <div class="s2-inner">
+          <div class="brew-info">
+            <span class="bi-label">Now brewing</span>
+            <span class="bi-name" id="bi-name">Cappuccino</span>
+            <span class="bi-phase" id="bi-phase"></span>
+            <div class="bi-pdots">
+              <div class="pdot" id="pd0"></div>
+              <div class="pdot" id="pd1"></div>
+              <div class="pdot" id="pd2"></div>
+              <div class="pdot" id="pd3"></div>
+            </div>
+          </div>
+          <div class="brew-video">
+            <canvas
+              id="sugarCanvas"
+              width="400"
+              height="300"
+              style="
+                position: absolute;
+                top: -20px;
+                left: 50%;
+                transform: translateX(-50%);
+                z-index: 10;
+                pointer-events: none;
+              "
+            ></canvas>
+            <div class="brew-steam">
+              <div class="brew-steam-line"></div>
+              <div class="brew-steam-line"></div>
+              <div class="brew-steam-line"></div>
+            </div>
+            <video
+              id="brewVideo"
+              autoplay
+              muted
+              playsinline
+              style="
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                z-index: 6;
+              "
+            >
+              <source src="assets/vide01.mp4" type="video/mp4" />
+            </video>
+            <video
+              id="brewVideoPermanent"
+              muted
+              playsinline
+              loop
+              style="
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                z-index: 7;
+                opacity: 0;
+                transition: opacity 0.5s ease;
+                display: none;
+                pointer-events: none;
+              "
+              preload="metadata"
+            >
+              <source src="assets/videopermanent.mp4" type="video/mp4" />
+            </video>
+          </div>
+          <!-- Sugar panel - slides in from right after video ends -->
+          <div class="s3-panel" id="s3Panel">
+            <div class="s3-ctrl">
+              <div class="sh">How sweet,<br /><em>your coffee?</em></div>
+              <div class="sugar-row">
+                <div class="snum" id="snum">0</div>
+                <div class="sunit" id="sunit">sugars<br />added</div>
+              </div>
+              <div class="cube-vis" id="cube-vis">
+                <div class="scb" id="scb0"></div>
+                <div class="scb" id="scb1"></div>
+                <div class="scb" id="scb2"></div>
+                <div class="scb" id="scb3"></div>
+                <div class="scb" id="scb4"></div>
+              </div>
+              <div class="brow">
+                <button class="bpm" id="bminus" disabled>−</button>
+                <button class="bpm" id="bplus">+</button>
+                <button class="bconf" id="bconf">
+                  <span>Confirm</span><span class="ar">→</span>
+                </button>
+              </div>
+              <button class="bns" id="bns">No sugar, please</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- S3 SUGAR (removed - merged into S2) -->
+      <div class="scr" id="s3"></div>
+
+      <!-- S4 RESULT -->
+      <div class="scr" id="s4">
+        <h2
+          style="
+            text-align: center;
+            color: #3a2818;
+            margin-bottom: 30px;
+            font-family: &quot;Cormorant Garamond&quot;, serif;
+            font-size: 36px;
+            font-weight: 300;
+            margin-top: 40px;
+          "
+        >
+          Thank you for your order !!!
+        </h2>
+        <div class="rcard" id="rcard">
+          <div class="rc-grid">
+            <div class="rc-bg" id="rcbg"></div>
+            <div class="rc-left">
+              <p class="rc-eye">Order Details</p>
+              <p class="rc-n1" id="rcn1"></p>
+              <p class="rc-n2" id="rcn2"></p>
+              <div class="rc-meta">
+                <span class="rc-price" id="rcprice"></span>
+                <span class="rc-origin" id="rcorigin"></span>
+              </div>
+              <p class="rc-stag" id="rcstag"></p>
+            </div>
+            <div class="rc-right">
+              <div class="rc-glow" id="rcglow"></div>
+              <div class="rc-cup" id="rccup">
+                <div class="rc-steam" id="rcsteam"></div>
+                <img
+                  id="rcimg"
+                  src="assets/imageespresso.png"
+                  alt="Espresso"
+                  style="object-fit: cover; position: relative; z-index: 2"
+                />
+              </div>
+            </div>
+            <div class="rc-info">
+              <div class="rc-it">
+                <div class="rciv" id="ri0">-</div>
+                <div class="rcil">Volume</div>
+              </div>
+              <div class="rc-it">
+                <div class="rciv" id="ri1">-</div>
+                <div class="rcil">Caffeine</div>
+              </div>
+              <div class="rc-it">
+                <div class="rciv" id="ri2">-</div>
+                <div class="rcil">Roast</div>
+              </div>
+              <div class="rc-it">
+                <div class="rciv" id="ri3">-</div>
+                <div class="rcil">Calories</div>
+              </div>
+              <div class="rc-it">
+                <div class="rciv" id="ri4">-</div>
+                <div class="rcil">Rating</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <button class="btn-again" id="bagain">← Order another</button>
+      </div>
+
+      <div class="dots-nav">
+        <div class="dnav on" id="d0"></div>
+        <div class="dnav" id="d1"></div>
+        <div class="dnav" id="d2"></div>
+        <div class="dnav" id="d3"></div>
+      </div>
+    </div>
+
+    <script src="index.js"></script>
+  </body>
+</html>
